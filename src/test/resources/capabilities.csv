@@ -1,0 +1,5 @@
+browser,browser_version,os,os_version,resolution, browserstack.debug
+browser,browser_version,os,os_version,resolution, browserstack.debug
+IE,7.0,Windows,XP,1366x768,true
+Safari,5.1,OS X,Snow Leopard,1920x1080,true
+Firefox,51.0 beta,Windows,10,1366x768,true
