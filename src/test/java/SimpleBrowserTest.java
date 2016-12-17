@@ -22,6 +22,7 @@ public class SimpleBrowserTest {
     public static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
 
     private WebDriver driver;
+    private DesiredCapabilities caps;
     private Map<Integer, List<String>> capabilities;
 
     @Before
@@ -39,20 +40,32 @@ public class SimpleBrowserTest {
     @Test
     public void openTest()
     {
-        DesiredCapabilities caps = setCapabilities(1);
 
-        try {
-            driver = new RemoteWebDriver(new URL(URL), caps);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        for(int i = 1; i < capabilities.size(); ++i) {
+            caps = setCapabilities(i);
+            try {
+                driver = new RemoteWebDriver(new URL(URL), caps);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            driver.get("http://tabletka.by/");
+
+            WebElement lecInput = driver.findElement(By.xpath(".//*[@id='tlec']"));
+            lecInput.click();
+            lecInput.sendKeys("уголь");
+
+            WebElement searchButton = driver.findElement(By.xpath("html/body/div[1]/div/div[3]/div[1]/div[1]/form/div[3]/input"));
+            searchButton.click();
+
+            WebElement result = driver.findElement(By.xpath(".//*[@id='kotel']/tbody/tr[2]/td[2]/div/a"));
+
+            System.out.println();
+            System.out.println(driver.getTitle());
+            System.out.println(result.getText().contains("УГОЛЬ АКТИВИРОВАННЫЙ"));
+
+            assert result.getText().contains("УГОЛЬ АКТИВИРОВАННЫЙ");
+
         }
-        driver.get("http://www.google.com");
-        WebElement element = driver.findElement(By.name("q"));
-
-        element.sendKeys("BrowserStack");
-        element.submit();
-
-        System.out.println(driver.getTitle());
     }
 
     @After
